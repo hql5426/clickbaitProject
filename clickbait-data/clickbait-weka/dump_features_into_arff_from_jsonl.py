@@ -1,23 +1,17 @@
-
 # coding: utf-8
 
 # In[1]:
 
-
-import json # build-in library
-import arff # https://pypi.python.org/pypi/liac-arff
-
+import json  # build-in library
+import numpy as np
 
 # In[2]:
 
-
-features = [("word count", 'NUMERIC'),
-            ("average word length", 'NUMERIC'),
+features = [("word count", 'NUMERIC'), ("average word length", 'NUMERIC'),
             ("length of the longest word", 'NUMERIC'),
             ("whether start with number", ['True', 'False']),
-            ("whether start with who/what/why/where/when/how", ['True', 'False']),
-            ("label", ['0', '1'])]
-
+            ("whether start with who/what/why/where/when/how",
+             ['True', 'False']), ("label", ['0', '1'])]
 
 # In[3]:
 
@@ -47,9 +41,10 @@ def extract_features(text):
 
 # In[4]:
 
-
 id_features = {}
-with open('instances_train.jsonl', 'r') as f:
+with open(
+        'C:/Users/hayden/OneDrive/Documents/clickbait_project/clickbait-data/instances_train.jsonl',
+        'r') as f:
     for line in f:
         dic = json.loads(line)
         if len(dic['postText'][0]) > 0:
@@ -58,12 +53,12 @@ with open('instances_train.jsonl', 'r') as f:
                 id_features.setdefault(dic['id'], feat)
 print(len(id_features))
 
-
 # In[5]:
 
-
 id_labels = {}
-with open('truth_train.jsonl', 'r') as f:
+with open(
+        'C:/Users/hayde/OneDrive/Documents/clickbait_project/clickbait-data/truth_train.jsonl',
+        'r') as f:
     for line in f:
         dic = json.loads(line)
         label = 1
@@ -73,9 +68,7 @@ with open('truth_train.jsonl', 'r') as f:
             id_labels.setdefault(dic['id'], label)
 print(len(id_labels))
 
-
 # In[6]:
-
 
 ###### dump data into arff file
 
@@ -89,12 +82,7 @@ for i in id_labels:
     tmp.append(str(id_labels[i]))
     data['data'].append(tmp)
 
-with open('sample_train.arff', 'w') as f:
-    f.write(arff.dumps(data))
-
+with open('instances_train.np', 'w') as f:
+    f.write(np.add(data))
 
 # In[ ]:
-
-
-
-
